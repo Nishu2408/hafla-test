@@ -6,11 +6,14 @@ export default function Calculator() {
   const [total, setTotal] = useState(0);
   const [displayNum, setDisplayNum] = useState(0);
   const [currentOperator, setCurrentOperator] = useState("");
+  const [equalsClicked,setEqualClick] = useState(false);
+
   const numbers = Array.from(Array(10).keys());
+
   const numClickHandle = num => {
-    const updatedNum = displayNum * 10 + num;
+    const updatedNum = equalsClicked ? num : displayNum * 10 + num;
     setDisplayNum(updatedNum);
-    // setTotal(updatedNum);
+    setEqualClick(false);
   };
 
   console.log({ displayNum, total });
@@ -32,6 +35,7 @@ export default function Calculator() {
     setTotal(finalValue);
     setCurrentOperator("=");
     setDisplayNum(finalValue);
+    setEqualClick(true);
   };
 
   return (
@@ -41,6 +45,8 @@ export default function Calculator() {
       {numbers.map(num => {
         return <Num num={num} clickHandle={() => numClickHandle(num)} />;
       })}
+      <br/>
+      <br/>
 
       <Operator operatorSymbol="+" operatorAction={handlePlus} />
       <Operator operatorSymbol="=" operatorAction={handleEquals} />
