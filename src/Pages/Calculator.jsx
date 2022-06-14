@@ -1,15 +1,37 @@
 import React, { useState } from "react";
-import Num from './Num';
+import Num from "./Num";
+import Operator from "./Operator";
 
 export default function Calculator() {
-//   const [total,setTotal] = useState(0);
+  const [total, setTotal] = useState(0);
   const [displayNum, setDisplayNum] = useState(0);
+  const [currentOperator, setCurrentOperator] = useState("");
   const numbers = Array.from(Array(10).keys());
   const numClickHandle = num => {
-      const updatedNum = (displayNum * 10 ) + num;
-      console.log({displayNum,num,updatedNum})
-     setDisplayNum(updatedNum)
-    // setTotal();
+    const updatedNum = displayNum * 10 + num;
+    setDisplayNum(updatedNum);
+    // setTotal(updatedNum);
+  };
+
+  console.log({ displayNum, total });
+
+  const handlePlus = () => {
+    setCurrentOperator("+");
+    setTotal(total + displayNum);
+    setDisplayNum(0);
+  };
+
+  const handleEquals = () => {
+    let finalValue = total;
+    switch (currentOperator) {
+      case "+":
+        finalValue = total + displayNum;  
+        break;
+      default:
+    }
+    setTotal(finalValue);
+    setCurrentOperator("=");
+    setDisplayNum(finalValue);
   };
 
   return (
@@ -17,8 +39,11 @@ export default function Calculator() {
       <h1>This is calculator</h1>
       <h2>{displayNum}</h2>
       {numbers.map(num => {
-        return <Num num = {num} clickHandle = {() => numClickHandle(num)}/>
+        return <Num num={num} clickHandle={() => numClickHandle(num)} />;
       })}
+
+      <Operator operatorSymbol="+" operatorAction={handlePlus} />
+      <Operator operatorSymbol="=" operatorAction={handleEquals} />
     </>
   );
 }
