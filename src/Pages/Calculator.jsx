@@ -11,7 +11,11 @@ export default function Calculator() {
   const numbers = Array.from(Array(10).keys());
 
   const numClickHandle = num => {
-    const updatedNum = equalsClicked ? num : displayNum * 10 + num;
+    let updatedNum =  displayNum * 10 + num;
+    if(equalsClicked){
+        updatedNum = num
+        setTotal(0);
+    }
     setDisplayNum(updatedNum);
     setEqualClick(false);
   };
@@ -43,7 +47,7 @@ export default function Calculator() {
       <h1>This is calculator</h1>
       <h2>{displayNum}</h2>
       {numbers.map(num => {
-        return <Num num={num} clickHandle={() => numClickHandle(num)} />;
+        return <Num key={num} num={num} clickHandle={() => numClickHandle(num)} />;
       })}
       <br/>
       <br/>
