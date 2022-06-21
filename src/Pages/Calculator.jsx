@@ -14,7 +14,6 @@ export default function Calculator() {
     let updatedNum =  displayNum * 10 + num;
     if(equalsClicked){
         updatedNum = num
-        setTotal(0);
     }
     setDisplayNum(updatedNum);
     setEqualClick(false);
@@ -23,22 +22,27 @@ export default function Calculator() {
   console.log({ displayNum, total });
 
   const handlePlus = () => {
+    processOperator("+");
     setCurrentOperator("+");
-    setTotal(total + displayNum);
-    setDisplayNum(0);
   };
 
-  const handleEquals = () => {
+
+  const processOperator = (operator) => {
     let finalValue = total;
-    switch (currentOperator) {
+    switch (operator || currentOperator) {
       case "+":
-        finalValue = total + displayNum;  
+        finalValue = Number(total) + Number(displayNum);
+          
         break;
       default:
     }
     setTotal(finalValue);
-    setCurrentOperator("=");
-    setDisplayNum(finalValue);
+    setDisplayNum(finalValue)
+    setEqualClick(true);
+  }
+
+  const handleEquals = () => {
+    processOperator();
     setEqualClick(true);
   };
 
